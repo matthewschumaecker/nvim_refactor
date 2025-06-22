@@ -7,43 +7,44 @@
 --   :help lsp
 --
 return {
-  'neovim/nvim-lspconfig',
-  dependencies = {
-    { 'williamboman/mason.nvim', config = true },
-    'williamboman/mason-lspconfig.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-    { 'j-hui/fidget.nvim', opts = {} },
-    'hrsh7th/cmp-nvim-lsp',
-  },
-  config = function()
-    local lspconfig = require 'lspconfig'
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+	"neovim/nvim-lspconfig",
+	dependencies = {
+		{ "williamboman/mason.nvim", config = true },
+		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		{ "j-hui/fidget.nvim", opts = {} },
+		"hrsh7th/cmp-nvim-lsp",
+	},
+	config = function()
+		local lspconfig = require("lspconfig")
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-    local servers = {
-      lua_ls = {
-        settings = {
-          Lua = {
-            completion = { callSnippet = 'Replace' },
-          },
-        },
-      },
-      gopls = {},
-    }
+		local servers = {
+			lua_ls = {
+				settings = {
+					Lua = {
+						completion = { callSnippet = "Replace" },
+					},
+				},
+			},
+			-- gopls = {},
+		}
 
-    require('mason').setup()
-    require('mason-tool-installer').setup {
-      ensure_installed = vim.tbl_keys(servers),
-    }
+		require("mason").setup()
+		require("mason-tool-installer").setup({
+			ensure_installed = vim.tbl_keys(servers),
+		})
 
-    require('mason-lspconfig').setup {
-      handlers = {
-        function(server)
-          lspconfig[server].setup {
-            capabilities = capabilities,
-            settings = servers[server],
-          }
-        end,
-      },
-    }
-  end,
-} 
+		require("mason-lspconfig").setup({
+			handlers = {
+				function(server)
+					lspconfig[server].setup({
+						capabilities = capabilities,
+						settings = servers[server],
+					})
+				end,
+			},
+		})
+	end,
+}
+
